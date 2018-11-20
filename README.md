@@ -1,5 +1,5 @@
 # express-dot-example
-Project for showing how to integrate dotJS with expressJS with pre-rendering
+Project for demonstrating how to integrate dotJS with expressJS with pre-rendering and best practices
 
 ## How to use
 Just clone the repo and `npm install`. 
