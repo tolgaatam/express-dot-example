@@ -19,6 +19,7 @@ try{
     renderTemplates = require('./renderTemplates.js');
 }
 catch (e) {
+    console.log("No compiled template found.");
     require('./buildTemplates');
     renderTemplates = require('./renderTemplates.js');
 }
