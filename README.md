@@ -1,12 +1,15 @@
 # express-dot-example
 Project for showing how to integrate dotJS with expressJS with pre-rendering
 
-# How to install
+## How to use
 Just clone the repo and `npm install`. 
 
 This will build the dotJS templates as well, thanks to the `postinstall` script included.
 
-# How is it different?
+For development, `npm run dev` (uses nodemon with .jst and .def extensions added, recompiles all templates on any change)
+For production,  `npm start` (compiles the templates only if the build folder does not exist)
+
+## How is this project different?
 
 This project follows the approach given at [the official dotJS express example](https://github.com/olado/doT/tree/master/examples/express) and builds upon it.
 
@@ -19,7 +22,7 @@ With this setup, dotJS templates are compiled when,
 
 such that no unnecessary compilations is done in production.
 
-# How does it work?
+## How does it work?
 
 When any of the three scenarios above is realized, dotJS package is used for compiling the templates. Files with `.jst` extension are the base files to be converted into standart javascript files. Files with `.def` extension can be used for defining partials. Partials defined within `.def` files cannot be reached explicitly but only can be used in `.jst` files.
 
@@ -27,6 +30,6 @@ Compiled `.jst` templates are put into the folder `.dotjs_build/` in javascript 
 
 In runtime, a helper script `renderTemplates.js` scans the `.dotjs_build/` folder and exposes an object of template functions for easy and fast access. Then, this object is used for registering express a template engine.
 
-# Contribution
+## Contribution
 
 There might be problems with this repo in terms of raw performance or organization aspects. Feel free to open an issue to discuss.
