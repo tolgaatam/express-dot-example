@@ -1,0 +1,19 @@
+{
+  "name": "dot-express-trial",
+  "version": "1.0.0",
+  "private": false,
+  "scripts": {
+    "postinstall": "npm run build",
+    "build": "node buildTemplates.js",
+    "dev": "NODE_ENV=development nodemon -e .js,.jst,.def server.js",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "dot": "1.1.2",
+    "express": "4.16.0",
+    "response-time": "2.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "1.18.6"
+  }
+}
