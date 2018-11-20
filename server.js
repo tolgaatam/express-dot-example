@@ -1,40 +1,53 @@
 const express = require('express');
 const http = require('http');
 const path = require('path');
-const fs = require('fs');
 const responseTime = require('response-time');
 
 const app = express();
 
 // START: DEFINE THE TEMPLATE ENGINE AND ITS SETTINGS
 
-if(process.env.NODE_ENV === 'development' || !fs.existsSync(__dirname + "/.dotjs_build/")){
+if (process.env.NODE_ENV === 'development') { // if in development, always compile templates
     require('./buildTemplates');
 }
-const renderTemplates = require('./renderTemplates.js');
 
-// define the view engine as dotjs
-app.engine('jst', function (filePath, options, callback) {
-    return callback(null,  renderTemplates[path.basename(filePath, '.jst')](options));
+let renderTemplates;
+// try gathering the templates. If throws,
+// it means we have not compiled any templates yet.
+// (we may only see this in production, hopefully)
+try{
+    renderTemplates = require('./renderTemplates.js');
+}
+catch (e) {
+    require('./buildTemplates');
+    renderTemplates = require('./renderTemplates.js');
+}
+
+// define the view engine as dotJS
+app.engine('jst', (filePath, options, callback) => {
+    return callback(null, renderTemplates[path.basename(filePath, '.jst')](options));
 });
 
 app.set('views', './views'); // specify the views directory for express lookup
-app.set('view engine', 'jst'); // register the dotjs template engine we just defined
+app.set('view engine', 'jst'); // register the dotJS template engine we just defined
 
 // END: DEFINE THE TEMPLATE ENGINE AND ITS SETTINGS
 
-app.use(responseTime());
+app.use(responseTime()); // we may want to measure the response time, maybe
 
-app.get('/', function(req, res){
+// for the base page, give our dashboard template page.
+app.get('/', (req, res) => {
     res.render('dashboard', {time_of_day: req.query.time_of_day || "morning"});
 });
 
-app.use(function(err, req, res, next) {
+// generic error handler for express
+app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send('Something broke!');
+    res.status(500).send('Something is wrong with our server!');
 });
 
+// start the http server
 const httpServer = http.createServer(app);
-httpServer.listen(3000, function() {
+httpServer.listen(3000, () => {
     console.log('Listening on port %d', httpServer.address().port);
 });
