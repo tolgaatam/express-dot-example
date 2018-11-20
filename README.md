@@ -30,6 +30,10 @@ Compiled `.jst` templates are put into the folder `.dotjs_build/` in javascript 
 
 In runtime, a helper script `renderTemplates.js` scans the `.dotjs_build/` folder and exposes an object of template functions for easy and fast access. Then, this object is used for registering express a template engine.
 
+## Compatibility
+
+This project uses const-let declarations and arrow functions. While I have not tried myself, [NodeJS ES6 Compatibility Page](https://node.green) shows that these functionalities should be fine with NodeJS 6.4.0 and upper.
+
 ## Contribution
 
 There might be problems with this repo in terms of raw performance or organization aspects. Feel free to open an issue to discuss.
